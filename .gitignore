@@ -28,6 +28,5 @@
 *.out
 *.app
 
-# scons crap
-.sconsign.dblite
-build
+# test crap
+test/test
