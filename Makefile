@@ -1,9 +1,7 @@
 CC=g++
-CFLAGS=-c -Wall -std=c++14 -O3 -fPIC
+CFLAGS=-Wall -std=c++14 -O3 -fPIC
 
-# change to whichever you use...
-GTEST_INCLUDE=/usr/local/gtest/1.8.0/include
-GTEST_LIBS=/usr/local/gtest/1.8.0/lib/*.a
+export # export all variables
 
 .PHONY: clean csv_reader.h
 
