@@ -1,6 +1,31 @@
 
 #line 1 "csv_reader.rl"
-// vim:syntax=ragel
+/**
+
+MIT License
+
+Copyright (c) 2017 Josep Arús-Pous
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/
+
 
 #ifndef _CSV_READER_H_
 #define _CSV_READER_H_
@@ -84,11 +109,11 @@ namespace csv {
   //
 
   
-#line 125 "csv_reader.rl"
+#line 150 "csv_reader.rl"
 
 
   
-#line 92 "csv_reader.h"
+#line 117 "csv_reader.h"
 static const int csv_record_parser_start = 1;
 static const int csv_record_parser_first_final = 7;
 static const int csv_record_parser_error = 0;
@@ -96,7 +121,7 @@ static const int csv_record_parser_error = 0;
 static const int csv_record_parser_en_main = 1;
 
 
-#line 128 "csv_reader.rl"
+#line 153 "csv_reader.rl"
 
   class RecordParser {
     public:
@@ -111,12 +136,12 @@ static const int csv_record_parser_en_main = 1;
 
         // initialize all values
         
-#line 115 "csv_reader.h"
+#line 140 "csv_reader.h"
 	{
 	cs = csv_record_parser_start;
 	}
 
-#line 142 "csv_reader.rl"
+#line 167 "csv_reader.rl"
 
         p = begin;
         pe = end;
@@ -124,41 +149,41 @@ static const int csv_record_parser_en_main = 1;
         size_t current_field = 0, chars_read = 0;
 
         
-#line 128 "csv_reader.h"
+#line 153 "csv_reader.h"
 	{
 	if ( p == pe )
 		goto _test_eof;
 	switch ( cs )
 	{
 tr1:
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st1;
 tr4:
-#line 87 "csv_reader.rl"
+#line 112 "csv_reader.rl"
 	{
       ts = p;
       te = p;
     }
-#line 96 "csv_reader.rl"
+#line 121 "csv_reader.rl"
 	{
       fields.push_back(std::string(ts, te-ts));
       current_field++;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st1;
 tr9:
-#line 96 "csv_reader.rl"
+#line 121 "csv_reader.rl"
 	{
       fields.push_back(std::string(ts, te-ts));
       current_field++;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
@@ -167,7 +192,7 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 171 "csv_reader.h"
+#line 196 "csv_reader.h"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 32: goto tr1;
@@ -178,26 +203,26 @@ case 1:
 		goto tr1;
 	goto tr0;
 tr0:
-#line 87 "csv_reader.rl"
+#line 112 "csv_reader.rl"
 	{
       ts = p;
       te = p;
     }
-#line 92 "csv_reader.rl"
+#line 117 "csv_reader.rl"
 	{
       te++;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st2;
 tr5:
-#line 92 "csv_reader.rl"
+#line 117 "csv_reader.rl"
 	{
       te++;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
@@ -206,7 +231,7 @@ st2:
 	if ( ++p == pe )
 		goto _test_eof2;
 case 2:
-#line 210 "csv_reader.h"
+#line 235 "csv_reader.h"
 	switch( (*p) ) {
 		case 10: goto tr7;
 		case 32: goto tr6;
@@ -217,18 +242,18 @@ case 2:
 		goto tr6;
 	goto tr5;
 tr10:
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st3;
 tr6:
-#line 96 "csv_reader.rl"
+#line 121 "csv_reader.rl"
 	{
       fields.push_back(std::string(ts, te-ts));
       current_field++;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
@@ -237,7 +262,7 @@ st3:
 	if ( ++p == pe )
 		goto _test_eof3;
 case 3:
-#line 241 "csv_reader.h"
+#line 266 "csv_reader.h"
 	switch( (*p) ) {
 		case 10: goto tr11;
 		case 32: goto tr10;
@@ -250,46 +275,46 @@ st0:
 cs = 0;
 	goto _out;
 tr2:
-#line 87 "csv_reader.rl"
+#line 112 "csv_reader.rl"
 	{
       ts = p;
       te = p;
     }
-#line 96 "csv_reader.rl"
+#line 121 "csv_reader.rl"
 	{
       fields.push_back(std::string(ts, te-ts));
       current_field++;
     }
-#line 109 "csv_reader.rl"
+#line 134 "csv_reader.rl"
 	{
       finished = true;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st7;
 tr7:
-#line 96 "csv_reader.rl"
+#line 121 "csv_reader.rl"
 	{
       fields.push_back(std::string(ts, te-ts));
       current_field++;
     }
-#line 109 "csv_reader.rl"
+#line 134 "csv_reader.rl"
 	{
       finished = true;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st7;
 tr11:
-#line 109 "csv_reader.rl"
+#line 134 "csv_reader.rl"
 	{
       finished = true;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
@@ -298,10 +323,10 @@ st7:
 	if ( ++p == pe )
 		goto _test_eof7;
 case 7:
-#line 302 "csv_reader.h"
+#line 327 "csv_reader.h"
 	goto st0;
 tr3:
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
@@ -310,31 +335,31 @@ st4:
 	if ( ++p == pe )
 		goto _test_eof4;
 case 4:
-#line 314 "csv_reader.h"
+#line 339 "csv_reader.h"
 	if ( (*p) == 34 )
 		goto tr13;
 	goto tr12;
 tr12:
-#line 87 "csv_reader.rl"
+#line 112 "csv_reader.rl"
 	{
       ts = p;
       te = p;
     }
-#line 92 "csv_reader.rl"
+#line 117 "csv_reader.rl"
 	{
       te++;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st5;
 tr14:
-#line 92 "csv_reader.rl"
+#line 117 "csv_reader.rl"
 	{
       te++;
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
@@ -343,21 +368,21 @@ st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
-#line 347 "csv_reader.h"
+#line 372 "csv_reader.h"
 	if ( (*p) == 34 )
 		goto tr15;
 	goto tr14;
 tr13:
-#line 87 "csv_reader.rl"
+#line 112 "csv_reader.rl"
 	{
       ts = p;
       te = p;
     }
-#line 92 "csv_reader.rl"
+#line 117 "csv_reader.rl"
 	{
       te++;
     }
-#line 101 "csv_reader.rl"
+#line 126 "csv_reader.rl"
 	{
       // some little bit of lookahead
       if(*(p + 1) != '"') {
@@ -365,17 +390,17 @@ tr13:
         current_field++;
       }
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
 	goto st6;
 tr15:
-#line 92 "csv_reader.rl"
+#line 117 "csv_reader.rl"
 	{
       te++;
     }
-#line 101 "csv_reader.rl"
+#line 126 "csv_reader.rl"
 	{
       // some little bit of lookahead
       if(*(p + 1) != '"') {
@@ -383,7 +408,7 @@ tr15:
         current_field++;
       }
     }
-#line 113 "csv_reader.rl"
+#line 138 "csv_reader.rl"
 	{
       chars_read++;
     }
@@ -392,7 +417,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 396 "csv_reader.h"
+#line 421 "csv_reader.h"
 	switch( (*p) ) {
 		case 10: goto tr11;
 		case 32: goto tr10;
@@ -415,7 +440,7 @@ case 6:
 	_out: {}
 	}
 
-#line 149 "csv_reader.rl"
+#line 174 "csv_reader.rl"
 
         if(!finished) {
           throw error::record_parsing(current_field);
