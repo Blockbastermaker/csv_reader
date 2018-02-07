@@ -14,7 +14,7 @@ class CSVReaderTest : public ::testing::Test {};
 // should not work in any way...
 TEST_F(CSVReaderTest, TestEmptyFile) {
   auto file_stream = std::make_unique<std::ifstream>("./test/fixtures/empty.csv", std::ios_base::in | std::ios_base::binary);
-  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(std::move(file_stream)));
+  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(*file_stream));
 
   ASSERT_FALSE(reader.valid()); // nothing to read...
   ASSERT_TRUE(reader.end());
@@ -22,7 +22,7 @@ TEST_F(CSVReaderTest, TestEmptyFile) {
 
 TEST_F(CSVReaderTest, TestSimpleCSV) {
   auto file_stream = std::make_unique<std::ifstream>("./test/fixtures/simple.csv", std::ios_base::in | std::ios_base::binary);
-  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(std::move(file_stream)));
+  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(*file_stream));
 
   ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
@@ -51,7 +51,7 @@ TEST_F(CSVReaderTest, TestSimpleCSV) {
 
 TEST_F(CSVReaderTest, TestQuotedCSV) {
   auto file_stream = std::make_unique<std::ifstream>("./test/fixtures/simple_quoted.csv", std::ios_base::in | std::ios_base::binary);
-  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(std::move(file_stream)));
+  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(*file_stream));
 
   ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
@@ -78,7 +78,7 @@ TEST_F(CSVReaderTest, TestQuotedCSV) {
 
 TEST_F(CSVReaderTest, TestInvalidCSV) {
   auto file_stream = std::make_unique<std::ifstream>("./test/fixtures/invalid.csv", std::ios_base::in | std::ios_base::binary);
-  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(std::move(file_stream)));
+  auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(*file_stream));
 
   ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
@@ -96,7 +96,7 @@ TEST_F(CSVReaderTest, TestInvalidCSV) {
 
 TEST_F(CSVReaderTest, TestMultipleBlocksValid) {
   auto file_stream = std::make_unique<std::ifstream>("./test/fixtures/short_block.csv", std::ios_base::in | std::ios_base::binary);
-  auto reader = csv::Reader<32>(std::make_unique<csv::input::StreamReader>(std::move(file_stream)));
+  auto reader = csv::Reader<32>(std::make_unique<csv::input::StreamReader>(*file_stream));
 
   ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
@@ -135,7 +135,7 @@ TEST_F(CSVReaderTest, TestMultipleBlocksValid) {
 
 TEST_F(CSVReaderTest, TestMultipleBlocksInvalid) {
   auto file_stream = std::make_unique<std::ifstream>("./test/fixtures/short_block.csv", std::ios_base::in | std::ios_base::binary);
-  auto reader = csv::Reader<16>(std::make_unique<csv::input::StreamReader>(std::move(file_stream)));
+  auto reader = csv::Reader<16>(std::make_unique<csv::input::StreamReader>(*file_stream));
 
   ASSERT_TRUE(reader.valid()); // nothing to read...
 
