@@ -461,7 +461,8 @@ case 6:
 
         virtual size_t read(char *buffer, size_t size) = 0;
         virtual const std::string name() const = 0;
-        virtual bool valid() = 0;
+        virtual bool valid() const = 0;
+        virtual bool end() const = 0;
     };
 
     class StreamReader : public Reader {
@@ -471,15 +472,18 @@ case 6:
 
         virtual size_t read(char *buffer, size_t size) {
           this->stream.read(buffer, size);
-          auto count = this->stream.gcount();
-          return count;
+          return this->stream.gcount();
         }
 
-        bool valid() {
+        virtual bool valid() const {
           return this->stream.good();
         }
 
-        const std::string name() const {
+        virtual bool end() const {
+          return this->stream.eof();
+        }
+
+        virtual const std::string name() const {
           return "stream";
         }
 
@@ -520,7 +524,11 @@ case 6:
       }
 
       bool valid() {
-        return !invalid_due_to_parse_error && (this->reader->valid() || (this->current_pos < this->buffer_size));
+        return !this->invalid_due_to_parse_error && (this->reader->valid() || (this->current_pos < this->buffer_size));
+      }
+
+      bool end() {
+        return this->reader->end() && (this->current_pos >= this->buffer_size);
       }
 
     private:
@@ -571,7 +579,7 @@ case 6:
       RecordParser record_parser;
 
       // buffer and buffer pointers
-      std::unique_ptr<char[]>buffer;
+      std::unique_ptr<char[]> buffer;
       size_t current_pos;
       size_t buffer_size;
       size_t current_record = 0;

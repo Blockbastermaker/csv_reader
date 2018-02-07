@@ -9,6 +9,7 @@ all: test
 
 test: csv_reader.h
 	$(MAKE) -wC test test
+	./test/test
 
 csv_reader.h:
 	ragel -C -G2 csv_reader.rl -o csv_reader.h
@@ -16,4 +17,3 @@ csv_reader.h:
 clean:
 	rm -f csv_reader.h
 	$(MAKE) -wC test clean
-

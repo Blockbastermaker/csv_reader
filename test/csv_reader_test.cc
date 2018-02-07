@@ -19,12 +19,14 @@ TEST_F(CSVReaderTest, TestEmptyFile) {
   auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(file_stream));
 
   ASSERT_FALSE(reader.valid()); // nothing to read...
+  ASSERT_TRUE(reader.end());
 }
 
 TEST_F(CSVReaderTest, TestSimpleCSV) {
   std::ifstream file_stream("./test/fixtures/simple.csv", std::ios_base::in | std::ios_base::binary);
   auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(file_stream));
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
 
   std::vector<std::string> results;
@@ -35,6 +37,7 @@ TEST_F(CSVReaderTest, TestSimpleCSV) {
   ASSERT_EQ(results[2], "c");
   ASSERT_EQ(results[3], "d");
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid());
   results.clear();
   reader.readLine(results);
@@ -45,12 +48,14 @@ TEST_F(CSVReaderTest, TestSimpleCSV) {
   ASSERT_EQ(results[3], "h");
 
   ASSERT_FALSE(reader.valid());
+  ASSERT_TRUE(reader.end());
 }
 
 TEST_F(CSVReaderTest, TestQuotedCSV) {
   std::ifstream file_stream("./test/fixtures/simple_quoted.csv", std::ios_base::in | std::ios_base::binary);
   auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(file_stream));
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
 
   std::vector<std::string> results;
@@ -60,6 +65,7 @@ TEST_F(CSVReaderTest, TestQuotedCSV) {
   ASSERT_EQ(results[1], "b");
   ASSERT_EQ(results[2], "c, d");
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid());
   results.clear();
   reader.readLine(results);
@@ -69,27 +75,32 @@ TEST_F(CSVReaderTest, TestQuotedCSV) {
   ASSERT_EQ(results[2], "h");
 
   ASSERT_FALSE(reader.valid());
+  ASSERT_TRUE(reader.end());
 }
 
 TEST_F(CSVReaderTest, TestInvalidCSV) {
   std::ifstream file_stream("./test/fixtures/invalid.csv", std::ios_base::in | std::ios_base::binary);
   auto reader = csv::Reader<>(std::make_unique<csv::input::StreamReader>(file_stream));
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
 
   std::vector<std::string> results;
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid());
   ASSERT_THROW({
     reader.readLine(results);
   }, csv::error::file_parsing);
   ASSERT_FALSE(reader.valid());
+  ASSERT_FALSE(reader.end());
 }
 
 TEST_F(CSVReaderTest, TestMultipleBlocksValid) {
   std::ifstream file_stream("./test/fixtures/short_block.csv", std::ios_base::in | std::ios_base::binary);
   auto reader = csv::Reader<32>(std::make_unique<csv::input::StreamReader>(file_stream));
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid()); // nothing to read...
 
   std::vector<std::string> results;
@@ -100,6 +111,7 @@ TEST_F(CSVReaderTest, TestMultipleBlocksValid) {
   ASSERT_EQ(results[2], "Cauliflower");
   ASSERT_EQ(results[3], "Peas");
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid());
   results.clear();
   reader.readLine(results);
@@ -109,6 +121,7 @@ TEST_F(CSVReaderTest, TestMultipleBlocksValid) {
   ASSERT_EQ(results[2], "Peach");
   ASSERT_EQ(results[3], "Prune");
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid());
   results.clear();
   reader.readLine(results);
@@ -118,6 +131,7 @@ TEST_F(CSVReaderTest, TestMultipleBlocksValid) {
   ASSERT_EQ(results[2], "Germany");
   ASSERT_EQ(results[3], "Spain");
 
+  ASSERT_TRUE(reader.end());
   ASSERT_FALSE(reader.valid());
 }
 
@@ -136,12 +150,15 @@ TEST_F(CSVReaderTest, TestMultipleBlocksInvalid) {
   ASSERT_EQ(results[2], "Cauliflower");
   ASSERT_EQ(results[3], "Peas");
 
+  ASSERT_FALSE(reader.end());
   ASSERT_TRUE(reader.valid());
   results.clear();
   // the second does not
   ASSERT_THROW({
     reader.readLine(results);
   }, csv::error::file_parsing);
+  ASSERT_FALSE(reader.valid());
+  ASSERT_FALSE(reader.end());
 }
 
 #endif
