@@ -197,20 +197,20 @@ namespace csv {
 
     class StreamReader : public Reader {
       public:
-        explicit StreamReader(std::istream &stream): stream(stream) {}
+        StreamReader(std::unique_ptr<std::istream> stream): stream(std::move(stream)) {}
         virtual ~StreamReader() {}
 
         virtual size_t read(char *buffer, size_t size) {
-          this->stream.read(buffer, size);
-          return this->stream.gcount();
+          this->stream->read(buffer, size);
+          return this->stream->gcount();
         }
 
         virtual bool valid() const {
-          return this->stream.good();
+          return this->stream->good();
         }
 
         virtual bool end() const {
-          return this->stream.eof();
+          return this->stream->eof();
         }
 
         virtual const std::string name() const {
@@ -218,7 +218,7 @@ namespace csv {
         }
 
       private:
-        std::istream &stream;
+        std::unique_ptr<std::istream> stream;
     };
   }
 
