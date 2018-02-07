@@ -1,5 +1,6 @@
-CC=g++
-CFLAGS=-Wall -std=c++14 -O3 -fPIC
+CC=clang-4.0
+CFLAGS=-c -std=c++14 -O3 -fPIC -Wall
+LDFLAGS=-lstdc++
 
 export # export all variables
 

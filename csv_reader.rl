@@ -87,7 +87,7 @@ namespace csv {
       with_record_num,
       with_file_name {
 
-      file_parsing(const std::string &file_name, size_t row_num, size_t field_num):
+      file_parsing(const std::string &file_name, size_t record_num, size_t field_num):
         with_field_num(field_num),
         with_record_num(record_num),
         with_file_name(file_name) {}
